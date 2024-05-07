@@ -16,11 +16,11 @@ function NumberSenseGame() {
   const navigateTo = useNavigate()
   // Sample questions
   const sampleQuestions = [
-    { id: 1, question: 'Four', answer: '4' },
-    { id: 2, question: 'Nine', answer: '9' },
-    { id: 3, question: 'five', answer: '5' },
-    { id: 4, question: 'Twenty', answer: '20' },
-    { id: 5, question: 'Eight', answer: '8' }
+    { id: 1, question: 'Twenty two', answer: '22' },
+    { id: 2, question: 'Nineteen', answer: '19' },
+    { id: 3, question: 'Thirty five', answer: '35' },
+    { id: 4, question: 'Forty nine', answer: '49' },
+    { id: 5, question: 'Twenty eight', answer: '28' }
   ];
 
   useEffect(() => {
@@ -190,7 +190,7 @@ function NumberSenseGame() {
         <div style={innerDivStyle}>
           {questions.map((question, index) => (
             <div key={question.id} style={{ display: 'flex', alignItems: 'center', marginLeft: '60px' }}>
-              <p style={{fontSize: 20, fontWeight: 900,fontFamily:"sans-serif",color: '#2C4B06',width:"100px"}}>{index+1}. {question.question}</p>
+              <p style={{fontSize: 20, fontWeight: 900,fontFamily:"sans-serif",color: '#2C4B06',width:"150px"}}>{index+1}. {question.question}</p>
               <input disabled={feedBackMode} type="text" value={feedBackMode ? feedBackAnswers[index]?.answer: answers[index]} onChange={(e) => handleAnswerChange(e, index)} style={inputStyle} className={feedBackMode ? feedBackAnswers[index]?.color:""} required={true} />
               {/* <button onClick={() => checkAnswer(index)} style={buttonStyle}>Done</button> */}
               {showHints && !feedBackMode && index ===0 && <p>{question.answer}</p>}
@@ -200,7 +200,7 @@ function NumberSenseGame() {
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center',}}>
           <button onClick={endGame} style={buttonStyle} onMouseEnter={(e) => e.target.style.backgroundColor = '#FFC107'}
           onMouseLeave={(e) => e.target.style.backgroundColor = '#2C4B06'}>{feedBackMode ? "Back":"Done"}</button>
-          <p>Time: {time} seconds</p>
+          {!feedBackMode && <p>Time: {time} seconds</p>}
         </div>
       </div>
   );

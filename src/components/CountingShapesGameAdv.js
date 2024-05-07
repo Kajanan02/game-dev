@@ -35,6 +35,13 @@ function CountingShapesGameAdv() {
     }
     console.log(para)
     const answers = JSON.parse(localStorage.getItem("answers"))
+    const cleanedAnswers = answers.map((a,i) => {
+        let data = {}
+        data["number"] = a.number.replace(/\s/g, '').toLowerCase();
+        data["letter"] = a.letter.replace(/\s/g, '').toLowerCase();
+        return data
+    })
+
     console.log(answers)
 
     setFeedBackMode(true)
@@ -42,8 +49,8 @@ function CountingShapesGameAdv() {
       let data={}
       data["answerNumber"]=e.answerNumber
       data["answerLetter"]=e.answerLetter
-      data["answerNumberColor"] = answers[i].number === e.answerNumber ? "color-green" : "color-red"
-      data["answerLetterColor"] = answers[i].letter === e.answerLetter ? "color-green" : "color-red"
+      data["answerNumberColor"] = cleanedAnswers[i].number === e.answerNumber ? "color-green" : "color-red"
+      data["answerLetterColor"] = cleanedAnswers[i].letter === e.answerLetter ? "color-green" : "color-red"
       return data
 
     })
@@ -89,11 +96,17 @@ function CountingShapesGameAdv() {
   const checkAnswer = () => {
     localStorage.setItem("answers",JSON.stringify(answers))
     let marks = 0;
+    const cleanedAnswers = answers.map((a,i) => {
+        let data = {}
+        data["number"] = a.number.replace(/\s/g, '').toLowerCase();
+        data["letter"] = a.letter.replace(/\s/g, '').toLowerCase();
+        return data
+    })
     questions.forEach((q, index) => {
-      if (String(answers[index]["number"]) === String(questions[index].answerNumber)) {
+      if (String(cleanedAnswers[index]["number"]) === String(questions[index].answerNumber)) {
         marks += 1;
       }
-      if (String(answers[index]["letter"]) === String(questions[index].answerLetter)) {
+      if (String(cleanedAnswers[index]["letter"]) === String(questions[index].answerLetter)) {
         marks += 1;
       }
     });
@@ -102,7 +115,7 @@ function CountingShapesGameAdv() {
 
   const endGame = () => {
     if(feedBackMode){
-      navigateTo('/category-selection')
+      navigateTo('/feedback-screen')
       return
     }
     let filled = false
@@ -216,16 +229,17 @@ function CountingShapesGameAdv() {
                 <img src={question.image} alt={`Question ${index + 1}`} style={imageStyle}/>
                 <input placeholder={"In number"} disabled={feedBackMode}  type="text" value={feedBackMode ? feedBackAnswers[index]["answerNumber"] : answers[index]["number"]} className={feedBackMode ? feedBackAnswers[index]["answerNumberColor"] : ""} onChange={(e) => handleAnswerChange(e, index,"number")}
                        style={inputStyle}/>
+                {showHints && !feedBackMode && index === 0 && <p>{question.answerNumber}</p>}
                 <input placeholder={"In words"}  disabled={feedBackMode} type="text" value={feedBackMode ? feedBackAnswers[index]["answerLetter"] : answers[index]["letter"]} className={feedBackMode ? feedBackAnswers[index]["answerLetterColor"] : ""} onChange={(e) => handleAnswerChange(e, index,"letter")}
                        style={{...inputStyle,width:"200px"}}/>
-                {showHints && !feedBackMode && index === 0 && <p>{question.answer}</p>}
+                {showHints && !feedBackMode && index === 0 && <p>{question.answerLetter}</p>}
               </div>
           ))}
         </div>
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px'}}>
           <button onClick={endGame} style={buttonStyle} onMouseEnter={(e) => e.target.style.backgroundColor = '#FFC107'}
           onMouseLeave={(e) => e.target.style.backgroundColor = '#2C4B06'}>{feedBackMode ? "Back":"Done"}</button>
-          <p>Time: {time} seconds</p>
+          {!feedBackMode && <p>Time: {time} seconds</p>}
         </div>
       </div>
   );

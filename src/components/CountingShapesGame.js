@@ -73,7 +73,7 @@ function CountingShapesGame() {
 
   const endGame = () => {
     if(feedBackMode){
-      navigateTo('/category-selection')
+      navigateTo('/feedback-screen')
       return
     }
     let filled =false

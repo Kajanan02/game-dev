@@ -17,11 +17,11 @@ function NumberSenseGameAdv() {
   const navigateTo = useNavigate();
   // Sample questions with the format changed
   const sampleQuestions = [
-    { id: 1, question: ' 7', answer: 'seven' },
-    { id: 2, question: ' 8', answer: 'eight' },
-    { id: 3, question: ' 5', answer: 'five' },
-    { id: 4, question: ' 11', answer: 'eleven' },
-    { id: 5, question: ' 3', answer: 'three' }
+    { id: 1, question: ' 45', answer: 'fortyfive' },
+    { id: 2, question: ' 38', answer: 'thirtyeight' },
+    { id: 3, question: ' 10', answer: 'ten' },
+    { id: 4, question: ' 27', answer: 'twentyseven' },
+    { id: 5, question: ' 31', answer: 'thirtyone' }
   ];
 
   useEffect(() => {
@@ -62,12 +62,14 @@ function NumberSenseGameAdv() {
       return
     }
     const answers = JSON.parse(localStorage.getItem("answers"))
+    const cleanedAnswers = answers.map(answer => answer.replace(/\s/g, '').toLowerCase());
     console.log(answers)
     setFeedBackMode(true)
     let ansData = sampleQuestions.map((e,i)=>{
       let data={}
+      console.log(cleanedAnswers[i])
       data["answer"]=e.answer
-      data["color"] = answers[i] === e.answer ? "color-green" : "color-red"
+      data["color"] = cleanedAnswers[i] === e.answer ? "color-green" : "color-red"
       return data
 
     })
@@ -90,7 +92,7 @@ function NumberSenseGameAdv() {
 
   const endGame = () => {
     if(feedBackMode){
-      navigateTo('/category-selection')
+      navigateTo('/feedback-screen')
       return
     }
     let filled =false
@@ -196,7 +198,7 @@ function NumberSenseGameAdv() {
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center',}}>
           <button onClick={endGame} style={buttonStyle} onMouseEnter={(e) => e.target.style.backgroundColor = '#FFC107'}
           onMouseLeave={(e) => e.target.style.backgroundColor = '#060c42'}>{feedBackMode ? "Back":"Done"}</button>
-          <p>Time: {time} seconds</p>
+          {!feedBackMode && <p>Time: {time} seconds</p>}
         </div>
       </div>
   );

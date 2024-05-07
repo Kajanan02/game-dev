@@ -18,11 +18,11 @@ function Equations() {
 
   // Sample equations
   const sampleQuestions = [
-    { id: 1, equation: '2 + 3 =', answer: '5' },
-    { id: 2, equation: '4 + 5 =', answer: '9' },
-    { id: 3, equation: '4 - 3 =', answer: '1' },
-    { id: 4, equation: '9 - 6 =', answer: '3' },
-    { id: 5, equation: '7 + 5 =', answer: '12' }
+    { id: 1, equation: '10 + 9 =', answer: '19' },
+    { id: 2, equation: '45 + 5 =', answer: '50' },
+    { id: 3, equation: '30 + 9 =', answer: '39' },
+    { id: 4, equation: '21 + 11 =', answer: '32' },
+    { id: 5, equation: '12 + 25 =', answer: '37' }
   ];
 
   useEffect(() => {
@@ -88,7 +88,7 @@ function Equations() {
 
   const endGame = () => {
     if(feedBackMode){
-      navigateTo('/category-selection')
+      navigateTo('/feedback-screen')
       return
     }
     let filled =false
@@ -187,7 +187,7 @@ function Equations() {
         <div style={innerDivStyle}>
           {questions.map((question, index) => (
             <div key={question.id} style={{ display: 'flex', alignItems: 'center', marginLeft: '60px' }}>
-              <p style={{fontWeight:600, color: '#2C4B06', fontSize: 24, alignSelf: 'center',fontFamily:"sans-serif"}}>{index+1}. {question.equation}</p>
+              <p style={{fontWeight:600, color: '#2C4B06', fontSize: 24, alignSelf: 'center',fontFamily:"sans-serif",width:"130px"}}>{index+1}. {question.equation}</p>
               <input disabled={feedBackMode} type="text" value={feedBackMode ? feedBackAnswers[index]?.answer: answers[index]} className={feedBackMode ? feedBackAnswers[index]?.color:""}  onChange={(e) => handleAnswerChange(e, index)} style={inputStyle} />
               {/* <button onClick={() => checkAnswer(index)} style={buttonStyle}>Done</button> */}
               {showHints &&  !feedBackMode && index ===0 && <p>{question.answer}</p>}
@@ -197,7 +197,7 @@ function Equations() {
         <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center',}}>
           <button onClick={endGame} style={buttonStyle} onMouseEnter={(e) => e.target.style.backgroundColor = '#FFC107'}
           onMouseLeave={(e) => e.target.style.backgroundColor = '#060c42'}>{feedBackMode ? "Back":"Done"}</button>
-          <p>Time: {time} seconds</p>
+          {!feedBackMode && <p>Time: {time} seconds</p>}
         </div>
       </div>
   );
