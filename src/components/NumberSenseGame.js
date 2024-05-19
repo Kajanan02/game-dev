@@ -111,13 +111,7 @@ function NumberSenseGame() {
 
   const terminate = (marks) => {
     localStorage.setItem('correctAnswers', marks);
-    let points = 0
-    points = Math.floor((marks * 10) - (time / 6));
-    if (points < 0) {
-      points = 0;
-    }
-    localStorage.setItem('points', points);
-    localStorage.setItem('time', time)
+   localStorage.setItem('time', time)
     localStorage.setItem('try-again',"/number-sense");
     navigateTo('/feedback-screen');
   }
@@ -174,7 +168,6 @@ function NumberSenseGame() {
     borderRadius: '5px',
     cursor: 'pointer',
     backgroundColor: 'transparent',
-    marginLeft: '300px',
     border: '2px solid #2C4B06',
     color: '#2C4B06',
   };
@@ -182,7 +175,7 @@ function NumberSenseGame() {
   return (
       <div style={containerStyle}>
         {/*<h2 style={{color: '#2C4B06', fontSize: 30, alignSelf: 'center', marginTop: '10px',fontFamily:"sans-serif"}}>Number Sense Game - Level 1</h2>*/}
-        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: '20px'}}>
+        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: '20px',justifyContent:"space-between"}}>
           <p style={{fontSize: 26, fontWeight: 900, marginLeft: '20px',color:"#2C4B06",fontFamily:"sans-serif"}}>Write the numbers in the boxes</p>
           {!feedBackMode &&<button onClick={() => handleHintClick()} style={hintButtonStyle}>Hint !</button>}
         </div>

@@ -113,8 +113,6 @@ function NumberSenseGameAdv() {
 
   const terminate = (marks) => {
     localStorage.setItem('correctAnswers', marks);
-    let oldPoints = 0
-    oldPoints = localStorage.getItem('points');
     localStorage.setItem('time', time)
     localStorage.setItem('try-again', "/number-sense-adv")
     navigateTo('/feedback-screen');
@@ -141,7 +139,8 @@ function NumberSenseGameAdv() {
     padding: '10px',
     margin: 'auto',
     width: 'calc(100vw - 800px)',
-    height: 'calc(100vh - 200px)',
+    height: 'auto',
+    paddingBottom:"45px",
     fontFamily: 'Comic Sans MS, cursive',
     borderRadius: '10px',
     background: '#F0FAFC',
@@ -172,7 +171,6 @@ function NumberSenseGameAdv() {
     borderRadius: '5px',
     cursor: 'pointer',
     backgroundColor: 'transparent',
-    marginLeft: '300px',
     border: '2px solid #2C4B06',
     color: '#2C4B06',
   };
@@ -180,7 +178,7 @@ function NumberSenseGameAdv() {
   return (
       <div style={containerStyle}>
         {/*<h2 style={{color: '#2C4B06', fontSize: 30, alignSelf: 'center', marginTop: '10px',fontFamily:"sans-serif"}}>Number Sense Game - Level 2</h2>*/}
-        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: '20px'}}>
+        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: '20px',justifyContent:"space-between"}}>
           <p style={{fontSize: 26, fontWeight: 900, marginLeft: '20px',color:"#2C4B06",fontFamily:"sans-serif",marginTop:"40px"}}>Write the numbers in words</p>
           {!feedBackMode &&<button onClick={() => handleHintClick()} style={hintButtonStyle}>Hint !</button>}
         </div>
