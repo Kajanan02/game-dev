@@ -101,10 +101,13 @@ function App() {
                          height={"50px"}/>
 
                     {localStorage.getItem("user_name") && <div style={{display: "flex"}}>
-                        <h4 style={{paddingRight: "50px", cursor: "pointer"}}>{localStorage.getItem("user_name")}</h4>
                         <h4 style={{paddingRight: "50px", cursor: "pointer"}} onClick={() => {
                             localStorage.clear();
-                            navigateTo("login")
+                            navigateTo("/profile")
+                        }}>{localStorage.getItem("user_name")}</h4>
+                        <h4 style={{paddingRight: "50px", cursor: "pointer"}} onClick={() => {
+                            localStorage.clear();
+                            navigateTo("/login")
                         }}>Logout</h4>
                     </div>}
                 </div>
