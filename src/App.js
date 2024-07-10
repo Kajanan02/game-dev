@@ -20,6 +20,8 @@ import Login from "./components/Login";
 import SignupForm from "./components/SignupForm";
 import PrivateRoute from "./components/PrivateRoute";
 import Profile from "./components/profile";
+import USER from "./images/logo-no-background 1.svg";
+import LOGO from "./images/Mask group.png";
 
 function App() {
     const [currentPage, setCurrentPage] = useState('landing');
@@ -73,7 +75,7 @@ function App() {
 
     const pageStyle = {
         backgroundSize: 'cover',
-        height: '89vh',
+        height: '100vh',
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
@@ -93,38 +95,52 @@ function App() {
 
 
     return (
-        <div style={location.pathname === "/profile" ? {}:backgroundsStyle}>
-            {location.pathname !== "/profile" &&<div style={{marginLeft: "100px", paddingTop: "20px"}}>
-                <div className={"mb-5"}
-                     style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-                    <img className={"cursor-pointer"} onClick={() => navigate("/")} src={Logo} width={"200px"}
-                         height={"50px"}/>
-
-                    {localStorage.getItem("user_name") && <div style={{display: "flex"}}>
-                        <h4 style={{paddingRight: "50px", cursor: "pointer"}} onClick={() => {
-                            localStorage.clear();
-                            navigateTo("/profile")
-                        }}>{localStorage.getItem("user_name")}</h4>
-                        <h4 style={{paddingRight: "50px", cursor: "pointer"}} onClick={() => {
-                            localStorage.clear();
-                            navigateTo("/login")
-                        }}>Logout</h4>
-                    </div>}
+        <div style={location.pathname === "/profile" ? {} : backgroundsStyle}>
+            {localStorage.getItem("user_name") &&<header className="profile-header">
+                <div className="logo-container">
+                    <img  src={USER} alt="Maths Adventures Logo" className="logo cursor-pointer"  onClick={() => navigate("/")}/>
                 </div>
-                {arr &&
-                    <div style={{display: "flex", alignItems: "center"}}>
-                        <img onClick={() => navigate(-1)} className={"cursor-pointer"} src={Arrow} width={"50px"}/>
-                        <span className={"name-tag"}>{name}</span>
-                    </div>}
-            </div>}
-            <div style={location.pathname === "/profile" ? {}: pageStyle}>
+                <div className="user-info">
+                    <span  className="user-info-text cursor-pointer" onClick={() => {
+                        navigate("/profile")
+                    }}>{localStorage.getItem("user_name")}</span>
+                    <span  className="user-info-text cursor-pointer" onClick={() => {
+                        localStorage.clear();
+                        navigate("/login")
+                    }}>{"Logout"}</span>
+                    <img src={LOGO} alt="User Avatar" className="avatar"/>
+                </div>
+            </header>}
+            {/*{location.pathname !== "/profile" && <div style={{marginLeft: "100px", paddingTop: "20px"}}>*/}
+            {/*    <div className={"mb-5"}*/}
+            {/*         style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>*/}
+            {/*        <img className={"cursor-pointer"} onClick={() => navigate("/")} src={Logo} width={"200px"}*/}
+            {/*             height={"50px"}/>*/}
+
+            {/*        {localStorage.getItem("user_name") && <div style={{display: "flex"}}>*/}
+            {/*            <h4 style={{paddingRight: "50px", cursor: "pointer"}} onClick={() => {*/}
+            {/*                navigate("/profile")*/}
+            {/*                console.log("sadf")*/}
+            {/*            }}>{localStorage.getItem("user_name")}</h4>*/}
+            {/*            <h4 style={{paddingRight: "50px", cursor: "pointer"}} onClick={() => {*/}
+            {/*                localStorage.clear();*/}
+            {/*                navigateTo("/login")*/}
+            {/*            }}>Logout</h4>*/}
+            {/*        </div>}*/}
+            {/*    </div>*/}
+            {/*    {arr &&*/}
+            {/*        <div style={{display: "flex", alignItems: "center"}}>*/}
+            {/*            <img onClick={() => navigate(-1)} className={"cursor-pointer"} src={Arrow} width={"50px"}/>*/}
+            {/*            <span className={"name-tag"}>{name}</span>*/}
+            {/*        </div>}*/}
+            {/*</div>}*/}
+            <div style={location.pathname === "/profile" ? {} : pageStyle}>
                 <Routes>
                     <Route path={"/login"} element={<Login/>}/>
                     <Route path={"/sign-up"} element={<SignupForm/>}/>
                     <Route exact path='/' element={<PrivateRoute/>}>
                         <Route path="/" element={<LandingPage/>}/>
                         <Route path="/profile" element={<Profile/>}/>
-                        <Route path="/" element={<LandingPage/>}/>
                         <Route path="/category-selection" element={<CategorySelection/>}/>
                         <Route path="/game-details" element={<NumberSenseDetails/>}/>
                         <Route path="/number-sense" element={<NumberSenseGame/>}/>

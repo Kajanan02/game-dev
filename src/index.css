@@ -267,4 +267,9 @@ header {
     padding: 6px;
     border-radius: 100px;
 }
+@media print {
+    .no-print {
+        display: none;
+    }
+}
 

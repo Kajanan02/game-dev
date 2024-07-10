@@ -6,6 +6,8 @@ import USER from "../images/logo-no-background 1.svg"
 import axios from "axios";
 import eye from "../images/eye (2) 1.svg"
 import ARROE from "../images/img_1.png"
+import {useNavigate} from "react-router-dom";
+import DOWNLOAD from "../images/download.svg"
 
 function Profile(props) {
 
@@ -14,6 +16,8 @@ function Profile(props) {
     const [equations, setEquations] = useState([]);
     const [numberSense, setNumberSense] = useState([]);
     const [counting, setCounting] = useState([]);
+    const navigate = useNavigate();
+
 
     const dates1 = ["01", "02", "03", "04", "05", "06", "07"];
     const dates2 = ["08", "09", "10", "11", "12", "13", "14"];
@@ -25,9 +29,8 @@ function Profile(props) {
         ///:id/gamesData
         axios.get('http://localhost:5000/api/users/'+localStorage.getItem("userId")+'/gamesData')
             .then(res => {
-                setGameData(res.data);
-                const createdAtDates = res.data.map(item => item.createdAt?.slice(0,10));
-               setEquations(res.data.filter(item => item.gameType === "Equations"));
+                setGameData(res.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)));
+                setEquations(res.data.filter(item => item.gameType === "Equations"));
                 setNumberSense(res.data.filter(item => item.gameType === "Number Sense"));
                 setCounting(res.data.filter(item => item.gameType === "Counting Shape Game"));
             })
@@ -39,26 +42,37 @@ function Profile(props) {
     console.log(gameData.map(item => item.createdAt?.slice(5,7)) )
 
 
+    function url(game, level) {
+        if(game === "Equations" && level === "1"){
+            return "/equations"
+        } else if(game === "Equations" && level === "2"){
+            return "/equations-adv"
+        } else if(game === "Number Sense" && level === "1"){
+            return "/number-sense"
+        } else if(game === "Number Sense" && level === "2"){
+            return "/number-sense-adv"
+        } else if(game === "Counting Shape Game" && level === "1"){
+            return "/counting-shapes"
+        } else if(game === "Counting Shape Game" && level === "2"){
+            return "/counting-shapes-adv"
+        } else {
+            return "/"
+        }
+    }
+
+
     return (
         <div>
-            <header className="profile-header">
-                <div className="logo-container">
-                    <img src={USER} alt="Maths Adventures Logo" className="logo"/>
-                </div>
-                <div className="user-info">
-                    <span className="user-info-text">{localStorage.getItem("user_name")}</span>
-                    <img src={LOGO} alt="User Avatar" className="avatar"/>
-                </div>
-            </header>
-            <div className="back-link" style={{marginLeft:"30px"}}>
+
+            <div className="back-link no-print" style={{marginLeft:"30px"}} >
                 <a href="/"><img src={ARROE} alt="Back Arrow"/> Back to Games</a>
             </div>
             <div style={{padding: "16px"}}>
                 <div style={{display: "flex", justifyContent: "space-between", gap: "16px"}}>
-                    <div style={{display: "flex", background: "rgba(114,161,70,0.12)", padding: "20px", width: "50%"}}>
-                        <div style={{width: "100%"}}>
+                    <div style={{display: "flex", background: "rgba(114,161,70,0.12)", padding: "20px", width: "50%"}} >
+                        <div style={{width: "100%"}} className={"no-print"}>
                             <div style={{display: "flex"}}>
-                                <img src={ProfileIMG} style={{height: "min-content"}}/>
+                                <img src={LOGO} style={{height:"100px",width:"100px"}}/>
                                 <div style={{marginLeft: "20px"}}>
                                     <h2 style={{color: "#2C4B06"}}>{localStorage.getItem("user_name")}</h2>
                                     <p>Username: {localStorage.getItem("username")}</p>
@@ -73,7 +87,7 @@ function Profile(props) {
                                             borderRadius: "16px"
                                         }}>
                                             <div style={{fontSize: "25px", color: "#2C4B06", fontWeight: 600}}>Rewards
-                                                taken {gameData.reduce((accumulator, current) => accumulator + parseInt(current.score), 0)}
+                                                taken { gameData.filter(item => parseInt(item.score) > 2)?.length}
                                             </div>
                                             <img src={CUP} style={{width: "40px"}}/>
                                         </div>
@@ -144,7 +158,7 @@ function Profile(props) {
                         </div>
                         <div></div>
                     </div>
-                    <div style={{background: "rgba(114,161,70,0.12)", padding: "20px", width: "50%"}}>
+                    <div style={{background: "rgba(114,161,70,0.12)", padding: "20px", width: "50%"}} className={"no-print"}>
                         <h2 style={{color: "#2C4B06"}}>Activity during the month</h2>
                         <div style={{display: "flex", justifyContent: "space-between"}}>
                             <div>Mon</div>
@@ -209,11 +223,21 @@ function Profile(props) {
                             <td>{data.score}</td>
                             <td>{data.timeTaken} seconds</td>
                             <td>{data.createdAt?.slice(0, 10)}</td>
-                            <td><a href="#"><img src={eye} alt="Back Arrow"/></a></td>
+                            <td><div className={"cursor-pointer"} onClick={()=>{
+                                localStorage.setItem('correctAnswers', data.score);
+                                localStorage.setItem('time', data.timeTaken)
+                                localStorage.setItem('try-again', url(data.gameType, data.level))
+                                navigate('/feedback-screen')
+                            }}><img className={"no-print"} src={eye} alt="Back Arrow"/></div></td>
                         </tr>)}
 
                         </tbody>
                     </table>
+
+                </div>
+                <div className={"no-print"} style={{borderWidth:"1px",borderColor:"#2C4B06",margin:"20px",borderStyle:"solid",float:"right",padding:"7px",borderRadius:"5px",cursor:"pointer"}} onClick={()=>  window.print()}>
+                    <img src={DOWNLOAD} style={{marginBottom:"-5px",marginRight:"9px"}}/>
+                    Download as PDF
                 </div>
             </div>
 
