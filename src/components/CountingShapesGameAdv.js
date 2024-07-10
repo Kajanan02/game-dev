@@ -6,6 +6,7 @@ import Seven from '../images/CountingGameL2/7.png';
 import Eleven from '../images/CountingGameL2/11.png';
 import Thirteen from '../images/CountingGameL2/13.png';
 import {useLocation, useNavigate} from "react-router-dom";
+import addGameDataFun from "../addGameDataFun";
 
 function CountingShapesGameAdv() {
   const [questions, setQuestions] = useState([]);
@@ -145,6 +146,7 @@ function CountingShapesGameAdv() {
     localStorage.setItem('points', points);
     localStorage.setItem('time', time);
     localStorage.setItem('try-again', '/counting-shapes-adv')
+    addGameDataFun({gameType: 'Counting Shape Game', level: '1', score: marks, timeTaken: time});
     navigateTo('/feedback-screen');
   };
 

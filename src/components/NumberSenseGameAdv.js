@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {useLocation, useNavigate} from "react-router-dom";
+import addGameDataFun from "../addGameDataFun";
 
 function NumberSenseGameAdv() {
   const [questions, setQuestions] = useState([]);
@@ -115,6 +116,7 @@ function NumberSenseGameAdv() {
     localStorage.setItem('correctAnswers', marks);
     localStorage.setItem('time', time)
     localStorage.setItem('try-again', "/number-sense-adv")
+    addGameDataFun({gameType: 'NumberSense', level: '2', score: marks, timeTaken: time});
     navigateTo('/feedback-screen');
   }
 

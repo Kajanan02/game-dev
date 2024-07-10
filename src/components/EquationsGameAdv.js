@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {useLocation, useNavigate} from "react-router-dom";
+import addGameDataFun from "../addGameDataFun";
 
 function EquationsAdv() {
   const [questions, setQuestions] = useState([]);
@@ -112,6 +113,7 @@ function EquationsAdv() {
     oldPoints = localStorage.getItem('points');
     localStorage.setItem('time', time)
     localStorage.setItem('try-again', '/equations-adv')
+    addGameDataFun({gameType: 'Equations', level: '2', score: marks, timeTaken: time});
     navigateTo('/feedback-screen');
   }
 

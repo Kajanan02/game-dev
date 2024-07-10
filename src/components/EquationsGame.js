@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {useLocation, useNavigate} from "react-router-dom";
+import addGameDataFun from "../addGameDataFun";
 
 function Equations() {
   const [questions, setQuestions] = useState([]);
@@ -115,6 +116,7 @@ function Equations() {
     localStorage.setItem('points', points);
     localStorage.setItem('time', time)
     localStorage.setItem('try-again', '/equations')
+    addGameDataFun({gameType: 'Equations', level: '1', score: marks, timeTaken: time});
     navigateTo('/feedback-screen');
   }
 
